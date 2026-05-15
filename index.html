@@ -101,7 +101,7 @@ function calcMetrics(rows) {
     totalReceita += receita;
     return { enviados, recuperados, taxa: enviados ? ((recuperados/enviados)*100) : 0, receita };
   });
-  totalCarrinho = rows.filter(r => !r.recuperado)
+  totalCarrinho = rows.filter(r => !r.recuperado || r.recuperado.trim() === '')
     .reduce((s, r) => s + (parseFloat(r.valor_carrinho) || 0), 0);
   const taxaGeral = totalEnviados ? ((totalRecuperados/totalEnviados)*100) : 0;
   return { msgs, totalEnviados, totalRecuperados, taxaGeral, totalReceita, totalCarrinho };
