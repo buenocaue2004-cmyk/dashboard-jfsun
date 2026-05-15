@@ -102,7 +102,10 @@ function calcMetrics(rows) {
     return { enviados, recuperados, taxa: enviados ? ((recuperados/enviados)*100) : 0, receita };
   });
   totalCarrinho = rows.filter(r => !r.recuperado || r.recuperado.trim() === '')
-    .reduce((s, r) => s + (parseFloat(r.valor_carrinho) || 0), 0);
+  .reduce((s, r) => {
+    const val = (r.valor_carrinho || '').replace(/[R$\s.]/g, '').replace(',', '.');
+    return s + (parseFloat(val) || 0);
+  }, 0);
   const taxaGeral = totalEnviados ? ((totalRecuperados/totalEnviados)*100) : 0;
   return { msgs, totalEnviados, totalRecuperados, taxaGeral, totalReceita, totalCarrinho };
 }
